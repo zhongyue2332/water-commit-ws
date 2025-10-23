@@ -1,0 +1,46 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>net.ahwater.watercommit</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>Watercommit</name>
+
+    <version>0.0.3</version>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://ahwater.net">沃特水务</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description>
+        A plugin designed to provide teams with a unified Git commit convention, featuring built-in common types and scopes.
+        It helps developers quickly generate standardized commit messages when submitting code and supports automatic synchronization to remote repositories.
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <actions>
+        <action id="WaterCommit.Start"
+                class="net.ahwater.watercommit.WaterCommitAction"
+                text="Water Commit: 开始提交"
+                description="开始标准化 Git 提交">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService
+                serviceImplementation="net.ahwater.watercommit.settings.WaterCommitSettings"/>
+        <projectConfigurable
+                instance="net.ahwater.watercommit.settings.WaterCommitConfigurable"
+                displayName="Water Commit"
+                parentId="tools"
+        />
+    </extensions>
+</idea-plugin>
