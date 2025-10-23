@@ -10,7 +10,7 @@
 ## ✨ 功能特性
 
 - 🎉 内置 `type` 和 `scope`，开箱即用，0配置
-- 🚀 一键打开提交面板（位于源代码管理视图顶部）
+- 🚀 快速开始提交（编辑区鼠标右键）
 - 🧩 支持从 `.commitrc` 文件读取 `type` 和 `scope` 配置
 - 💬 支持选择提交类型、作用域并输入提交说明
 - 🪄 自动拼接符合约定式提交（Conventional Commit）的信息
@@ -53,7 +53,7 @@
 
 3. 输入提交信息（Subject）
 
-![提交信息](ihttps://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img4.png)
+![提交信息](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img4.png)
 
 4. 点击确定进行本次提交（Commit）
 
@@ -132,7 +132,7 @@
 - ✅ 支持交互式选择 type / scope / subject
 - ✨ 自动生成标准化 commit message
 - 💬 提交成功 / 失败信息提示
-- 🧩 支持 SCM 菜单触发命令
+- 🧩 支持右键菜单触发命令
 - 💎 Emoji 类型前缀支持
 
 ## 🧑‍💻 作者
