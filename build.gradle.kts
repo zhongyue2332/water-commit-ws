@@ -35,9 +35,9 @@ intellijPlatform {
         changeNotes = """
             version: 0.0.5
             release: 2025-11-17
-            1、Update the logo, and add a small logo to the contextMenu.
-            2、Integrate pop-up boxes, consolidating all operations, including settings, into a single pop-up box.
-            3、Supported commit body.
+            1.Update the logo, and add a small logo to the contextMenu.
+            2.Integrate pop-up boxes, consolidating all operations, including settings, into a single pop-up box.
+            3.Supported commit body.
         """.trimIndent()
 
         description = """
@@ -55,7 +55,7 @@ tasks {
     }
     withType<org.jetbrains.intellij.platform.gradle.tasks.BuildSearchableOptionsTask> {
         // 解决 Locale must be default 报错
-        jvmArgs("-Duser.language=zh", "-Duser.country=CN", "-Dfile.encoding=UTF-8")
+        jvmArgs = listOf("-Duser.language=en", "-Duser.country=US")
     }
 }
 
