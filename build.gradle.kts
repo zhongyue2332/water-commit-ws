@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.ahwater"
-version = "0.0.4"
+version = "0.0.5"
 
 repositories {
     mavenCentral()
@@ -29,11 +29,15 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "251"
+            sinceBuild = "241"
         }
 
         changeNotes = """
-            Initial version
+            version: 0.0.5
+            release: 2025-11-17
+            1、Update the logo, and add a small logo to the contextMenu.
+            2、Integrate pop-up boxes, consolidating all operations, including settings, into a single pop-up box.
+            3、Supported commit body.
         """.trimIndent()
 
         description = """

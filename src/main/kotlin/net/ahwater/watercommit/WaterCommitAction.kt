@@ -27,24 +27,41 @@ class WaterCommitAction : AnAction() {
         val config = loadCommitRc(basePath)
 
         ApplicationManager.getApplication().invokeLater {
-            val typeNames = config.types.map { "${it.emoji ?: ""} ${it.name}${it.description}" }.toTypedArray()
-            val typeDialog = ComboBoxDialog(project, "请选择提交类型 (type)：", typeNames)
-            if (!typeDialog.showAndGet()) return@invokeLater
-            val selectedTypeStr = typeDialog.selectedItem ?: return@invokeLater
-            val type = config.types.find { "${it.emoji ?: ""} ${it.name}" in selectedTypeStr } ?: return@invokeLater
+//            val typeNames = config.types.map { "${it.emoji ?: ""} ${it.name}${it.description}" }.toTypedArray()
+//            val typeDialog = ComboBoxDialog(project, "请选择提交类型 (type)：", typeNames)
+//            if (!typeDialog.showAndGet()) return@invokeLater
+//            val selectedTypeStr = typeDialog.selectedItem ?: return@invokeLater
+//            val type = config.types.find { "${it.emoji ?: ""} ${it.name}" in selectedTypeStr } ?: return@invokeLater
+//
+//            val scopeNames = config.scopes.map { "${it.name}：${it.description}" }.toTypedArray()
+//            val scopeDialog = ComboBoxDialog(project, "请选择作用范围 (scope)：", scopeNames)
+//            if (!scopeDialog.showAndGet()) return@invokeLater
+//            val selectedScopeStr = scopeDialog.selectedItem ?: ""
+//            val scope = config.scopes.find { it.name in selectedScopeStr }?.name ?: ""
+//
+//            val inputDialog = InputDialog(project, "请输入提交信息（Subject）：")
+//            if (!inputDialog.showAndGet()) return@invokeLater
+//            val message = inputDialog.inputText ?: return@invokeLater
+//
+//            val scopeText = if (scope.isEmpty()) "" else "($scope)"
+//            val finalMessage = "${type.emoji ?: ""} ${type.name}$scopeText: $message"
 
-            val scopeNames = config.scopes.map { "${it.name}：${it.description}" }.toTypedArray()
-            val scopeDialog = ComboBoxDialog(project, "请选择作用范围 (scope)：", scopeNames)
-            if (!scopeDialog.showAndGet()) return@invokeLater
-            val selectedScopeStr = scopeDialog.selectedItem ?: ""
-            val scope = config.scopes.find { it.name in selectedScopeStr }?.name ?: ""
+            val dialog = UnifiedCommitDialog(project, config.types, config.scopes)
+            if (!dialog.showAndGet()) return@invokeLater
 
-            val inputDialog = InputDialog(project, "请输入提交信息（Subject）：")
-            if (!inputDialog.showAndGet()) return@invokeLater
-            val message = inputDialog.inputText ?: return@invokeLater
+            val type = dialog.selectedType ?: return@invokeLater
+            val scope = dialog.selectedScope?.name ?: ""
+            val subject = dialog.subject
+            val body = dialog.body
 
             val scopeText = if (scope.isEmpty()) "" else "($scope)"
-            val finalMessage = "${type.emoji ?: ""} ${type.name}$scopeText: $message"
+
+            val finalMessage = buildString {
+                append("${type.emoji ?: ""} ${type.name}$scopeText: $subject")
+                if (body.isNotEmpty()) {
+                    append("\n\n$body")
+                }
+            }
 
             ProgressManager.getInstance().runProcessWithProgressSynchronously({
                 try {

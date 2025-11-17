@@ -3,8 +3,8 @@
 一款为团队提供 **统一Git提交规范** 的VS Code插件。  
 帮助开发者在提交代码时快速生成符合规范的提交信息，让提交历史更清晰、更可读。
 
-![Version](https://img.shields.io/visual-studio-marketplace/v/zhongy.water-commit?color=2196F3)
-![Downloads](https://img.shields.io/visual-studio-marketplace/d/zhongy.water-commit?color=2196F3)
+![Version](https://img.shields.io/jetbrains/plugin/v/net.ahwater.watercommit?color=2196F3)
+![Downloads](https://img.shields.io/jetbrains/plugin/d/net.ahwater.watercommit?color=2196F3)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## ✨ 功能特性
@@ -12,7 +12,7 @@
 - 🎉 内置 `type` 和 `scope`，开箱即用，0配置
 - 🚀 快速开始提交（编辑区鼠标右键）
 - 🧩 支持从 `.commitrc` 文件读取 `type` 和 `scope` 配置
-- 💬 支持选择提交类型、作用域并输入提交说明
+- 💬 支持选择提交类型、作用域并输入提交说明和详情
 - 🪄 自动拼接符合约定式提交（Conventional Commit）的信息
 - 💎 支持 Emoji 类型标识（例如 ✨ feat、🐛 fix、🎨 ui）
 - 📋 暂存区无内容时自动执行 `git add -A`，默认开启，可通过配置 `waterCommit.autoGitAdd=false` 关闭
@@ -22,12 +22,13 @@
 
 | 依赖项          | 版本要求           |
 |--------------|----------------|
-| **WebStorm** | ≥ **2025**     |
+| **WebStorm** | ≥ **2024**     |
 | **Git**      | 必须已安装并可在命令行中运行 |
 | **项目环境**     | 任何 Git 仓库均可使用  |
 
 > 💡 插件会在检测到 Git 仓库时启用。若当前文件夹非 Git 项目，将提示「未检测到Git仓库，请先初始化仓库」。
 
+![右键菜单](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/6.png)
 
 ## 🚀 使用方法
 
@@ -39,30 +40,30 @@
 
 在空白处右键菜单，选择`WaterCommit: 开始提交`，如下图：
 
-![右键菜单](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img1.png)
+![右键打开](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/1.png)
 
 ### 💬 3. 输入提交信息
-插件将依次引导你完成：
+在弹框中完成提交
 1. 选择提交类型（Type）
 
-![提交类型](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img2.png)
+![提交类型](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/3.png)
 
-2. 选择提交范围（Scope，可为空）
+2. 选择提交范围（Scope，可选择空）
 
-![提交范围](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img3.png)
+![提交范围](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/4.png)
 
-3. 输入提交信息（Subject）
+3. 输入提交信息（Subject）和详情（Body）
 
-![提交信息](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img4.png)
+![提交信息](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/2.png)
 
 4. 点击确定进行本次提交（Commit）
 
-![成功提示](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img6.png)
+![成功提示](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/5.png)
 
 
 ## 🧩 自定义配置
 
-### 🔧 1. `.commitrc` 自定义提交类型与作用域
+### 🔧 1. 通过`.commitrc` 文件自定义提交类型与作用域
 
 你可以在项目根目录添加 `.commitrc` 文件来自定义提交类型与作用域，该文件需要 `json` 格式，以下是插件预设的配置：
 
@@ -102,10 +103,19 @@
 ### ⚙️ 2. 插件配置项
 在系统设置中，可自定义 Water Commit 的行为：
 
-![设置](https://raw.githubusercontent.com/zhongyue2332/water-commit/main/image/ws-img5.png)
+![设置](https://raw.githubusercontent.com/zhongyue2332/water-commit-ws/main/assets/7.png)
 
 
 ## 🕒 Changelog
+
+### 0.0.5
+
+**发布日期:** 2025-11-17
+
+**新增功能：**
+- 🧩 更改logo，右键菜单中添加logo
+- ✨ 弹框整合，所有操作整合到一个弹框，包括设置项
+- 💬 支持编写提交详情
 
 ### 0.0.4
 
@@ -143,4 +153,4 @@
 - 💎 Emoji 类型前缀支持
 
 ## 🧑‍💻 作者
-**zhongy**
+[**zhongy**](https://github.com/zhongyue2332/)

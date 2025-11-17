@@ -20,7 +20,7 @@ class WaterCommitConfigurable : Configurable {
         panel!!.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
 
         autoAddCheckbox = JCheckBox("当暂存区为空时自动执行 `git add -A` 后再提交。", settings.autoGitAdd)
-        autoSyncCheckbox = JCheckBox("提交完成后是否自动同步当前分支到远程仓库。", settings.autoSyncRemote)
+        autoSyncCheckbox = JCheckBox("提交完成后自动同步当前分支到远程仓库。", settings.autoSyncRemote)
 
         panel!!.add(autoAddCheckbox)
         panel!!.add(autoSyncCheckbox)

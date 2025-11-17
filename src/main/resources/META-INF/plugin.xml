@@ -7,7 +7,7 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
     <name>Watercommit</name>
 
-    <version>0.0.3</version>
+    <version>0.0.5</version>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor url="https://github.com/zhongyue2332">钟越</vendor>
@@ -27,7 +27,8 @@
         <action id="WaterCommit.Start"
                 class="net.ahwater.watercommit.WaterCommitAction"
                 text="Water Commit: 开始提交"
-                description="开始标准化 Git 提交">
+                description="开始标准化 Git 提交"
+                icon="/META-INF/pluginIcon16.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
