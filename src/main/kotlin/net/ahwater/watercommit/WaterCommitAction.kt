@@ -5,12 +5,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
 import net.ahwater.watercommit.settings.WaterCommitSettings
-import java.awt.BorderLayout
-import java.awt.Dimension
-import javax.swing.*
 
 class WaterCommitAction : AnAction() {
 
@@ -27,24 +23,6 @@ class WaterCommitAction : AnAction() {
         val config = loadCommitRc(basePath)
 
         ApplicationManager.getApplication().invokeLater {
-//            val typeNames = config.types.map { "${it.emoji ?: ""} ${it.name}${it.description}" }.toTypedArray()
-//            val typeDialog = ComboBoxDialog(project, "请选择提交类型 (type)：", typeNames)
-//            if (!typeDialog.showAndGet()) return@invokeLater
-//            val selectedTypeStr = typeDialog.selectedItem ?: return@invokeLater
-//            val type = config.types.find { "${it.emoji ?: ""} ${it.name}" in selectedTypeStr } ?: return@invokeLater
-//
-//            val scopeNames = config.scopes.map { "${it.name}：${it.description}" }.toTypedArray()
-//            val scopeDialog = ComboBoxDialog(project, "请选择作用范围 (scope)：", scopeNames)
-//            if (!scopeDialog.showAndGet()) return@invokeLater
-//            val selectedScopeStr = scopeDialog.selectedItem ?: ""
-//            val scope = config.scopes.find { it.name in selectedScopeStr }?.name ?: ""
-//
-//            val inputDialog = InputDialog(project, "请输入提交信息（Subject）：")
-//            if (!inputDialog.showAndGet()) return@invokeLater
-//            val message = inputDialog.inputText ?: return@invokeLater
-//
-//            val scopeText = if (scope.isEmpty()) "" else "($scope)"
-//            val finalMessage = "${type.emoji ?: ""} ${type.name}$scopeText: $message"
 
             val dialog = UnifiedCommitDialog(project, config.types, config.scopes)
             if (!dialog.showAndGet()) return@invokeLater
@@ -59,7 +37,7 @@ class WaterCommitAction : AnAction() {
             val finalMessage = buildString {
                 append("${type.emoji ?: ""} ${type.name}$scopeText: $subject")
                 if (body.isNotEmpty()) {
-                    append("\n\n$body")
+                    append("\n$body")
                 }
             }
 
@@ -73,53 +51,6 @@ class WaterCommitAction : AnAction() {
         }
     }
 
-    class ComboBoxDialog(project: Project?, title: String, items: Array<String>) : DialogWrapper(project) {
-        var selectedItem: String? = null
-        private val comboBox = JComboBox(items).apply {
-            preferredSize = Dimension(420, 30) // 自定义宽度
-            isEditable = false
-        }
-
-        init {
-            setTitle(title)
-            init()
-        }
-
-        override fun createCenterPanel(): JComponent {
-            val panel = JPanel(BorderLayout())
-            panel.add(comboBox, BorderLayout.CENTER)
-            return panel
-        }
-
-        override fun doOKAction() {
-            selectedItem = comboBox.selectedItem as? String
-            super.doOKAction()
-        }
-    }
-
-    class InputDialog(project: Project?, title: String) : DialogWrapper(project) {
-        var inputText: String? = null
-        private val textField = JTextField().apply {
-            preferredSize = Dimension(420, 30)
-        }
-
-        init {
-            setTitle(title)
-            init()
-        }
-
-        override fun createCenterPanel(): JComponent {
-            val panel = JPanel(BorderLayout())
-            panel.add(textField, BorderLayout.CENTER)
-            return panel
-        }
-
-        override fun doOKAction() {
-            inputText = textField.text.trim()
-            super.doOKAction()
-        }
-    }
-
     private fun commitProcess(project: Project, cwd: String, message: String) {
         val autoGitAdd = getBooleanConfig(project, "waterCommit.autoGitAdd", true)
         val autoSyncRemote = getBooleanConfig(project, "waterCommit.autoSyncRemote", false)
@@ -127,7 +58,7 @@ class WaterCommitAction : AnAction() {
         val staged = exec(listOf("git", "diff", "--cached", "--name-only"), cwd).trim()
         if (staged.isEmpty()) {
             val changed = exec(listOf("git", "status", "--porcelain"), cwd).trim()
-            println("*****git status result:*****\n$changed")
+
             if (changed.isEmpty()) {
                 showInfo(project, "😄 没有可提交的更改。")
                 return
@@ -140,16 +71,25 @@ class WaterCommitAction : AnAction() {
             }
         }
 
-        exec(listOf("git", "commit", "-m", message), cwd)
+        val commitLines = message.split("\n").map { it.trim() }.filter { it.isNotEmpty() }
+
+        val commitCmd = mutableListOf<String>("git", "commit")
+        commitLines.forEach { line ->
+            commitCmd.addAll(listOf("-m", line))
+        }
+
+        exec(commitCmd, cwd)
+
+        val titleLine = commitLines.firstOrNull() ?: ""
 
         if (autoSyncRemote) {
-            syncToRemote(project, cwd, message)
+            syncToRemote(project, cwd, titleLine)
         } else {
-            showInfo(project, "✅ 提交成功：$message")
+            showInfo(project, "✅ 提交成功：$titleLine")
         }
     }
 
-    private fun syncToRemote(project: Project, cwd: String, finalMessage: String) {
+    private fun syncToRemote(project: Project, cwd: String, titleLine: String) {
         try {
             val remotes = exec(listOf("git", "remote"), cwd).split("\n").filter { it.isNotBlank() }
             if (remotes.isEmpty()) {
@@ -166,7 +106,7 @@ class WaterCommitAction : AnAction() {
                 exec(listOf("git", "push", "-u", remoteName, branch), cwd)
             }
 
-            showInfo(project, "✅ 提交成功，分支已同步：$finalMessage")
+            showInfo(project, "✅ 提交成功，分支已同步：$titleLine")
         } catch (ex: Exception) {
             showError(project, "❌ 推送失败：${ex.message}")
         }

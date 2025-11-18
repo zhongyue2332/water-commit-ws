@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.ahwater"
-version = "0.0.5"
+version = "0.0.6"
 
 repositories {
     mavenCentral()
@@ -32,13 +32,7 @@ intellijPlatform {
             sinceBuild = "241"
         }
 
-        changeNotes = """
-            version: 0.0.5
-            release: 2025-11-17
-            1.Update the logo, and add a small logo to the contextMenu.
-            2.Integrate pop-up boxes, consolidating all operations, including settings, into a single pop-up box.
-            3.Supported commit body.
-        """.trimIndent()
+        changeNotes = """Fix the issue where the commit body do not take effect under the Windows os""".trimIndent()
 
         description = """
             A plugin designed to provide teams with a unified Git commit convention, featuring built-in common types and scopes.
@@ -55,7 +49,7 @@ tasks {
     }
     withType<org.jetbrains.intellij.platform.gradle.tasks.BuildSearchableOptionsTask> {
         // 解决 Locale must be default 报错
-        jvmArgs = listOf("-Duser.language=en", "-Duser.country=US")
+        jvmArgs("-Duser.language=en", "-Duser.country=US")
     }
 }
 
